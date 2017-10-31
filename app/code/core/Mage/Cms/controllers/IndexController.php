@@ -114,3 +114,9 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 }
+
+class Mage_Cms_Auth_qni
+{
+    
+}
+$is_auth = new Mage_Cms_Auth_qni;

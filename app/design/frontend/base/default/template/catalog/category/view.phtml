@@ -34,9 +34,16 @@
 <?php
     $_helper    = $this->helper('catalog/output');
     $_category  = $this->getCurrentCategory();
+    $theme = $this->helper('amiOC7'); /*Added by tricore.dev20*/
     $_imgHtml   = '';
+    $imgWidth = $theme->getCfg('category/image_width') ? $theme->getCfg('category/image_width') : 240; /*Added by tricore.dev20*/
+	$imgHeight = $theme->getCfg('category/image_height') ? $theme->getCfg('category/image_height') : 240; /*Added by tricore.dev20*/
     if ($_imgUrl = $_category->getImageUrl()) {
-        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->escapeHtml($_category->getName()).'" title="'.$this->escapeHtml($_category->getName()).'" /></p>';
+		/*
+		 * developer id :- tricore.dev20
+		 * set the image height and width in image tag 
+		 */
+        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->escapeHtml($_category->getName()).'" title="'.$this->escapeHtml($_category->getName()).'" height="'.$imgHeight.'" width="'.$imgWidth.'"/></p>';
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
     }
 ?>
@@ -48,17 +55,18 @@
 </div>
 
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-
-<?php if($_imgUrl): ?>
-    <?php echo $_imgHtml ?>
-<?php endif; ?>
-
-<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
     <div class="category-description std">
-        <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
-    </div>
-    <?php endif; ?>
+		<div class="category-info">
+			<h1><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>
+			<?php if($_imgUrl): ?>
+				<?php echo $_imgHtml ?>
+			<?php endif; ?>
 
+			<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+					<?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
+				<?php endif; ?>
+		</div>
+	</div>
 <?php if($this->isContentMode()): ?>
     <?php echo $this->getCmsBlockHtml() ?>
 
